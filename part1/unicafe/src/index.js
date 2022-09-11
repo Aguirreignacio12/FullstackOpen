@@ -6,6 +6,16 @@ const Header = ({ txt }) => <h2>{txt}</h2>
 
 const Button = ({ onClick, txt }) => <button onClick={onClick}>{txt} </button>
 
+const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+  return <>
+    <span>Good {good}</span>
+    <span>Neutral {neutral}</span>
+    <span>Bad {bad}</span>
+    <span>All {all}</span>
+    <span>Average {average}</span>
+    <span>Positive{positive}</span>
+  </>
+}
 
 const App = () => {
   const [good, setGood] = useState(0),
@@ -13,7 +23,7 @@ const App = () => {
     [bad, setBad] = useState(0)
 
   let all = good + neutral + bad,
-    average = (good * 1 + bad * -1) / all ,
+    average = (good * 1 + bad * -1) / all,
     positive = (all ? (good * 100) / all : 0) + '%'
 
   return (
@@ -26,12 +36,7 @@ const App = () => {
       </article>
       <article>
         <Header txt={'Statistics'} />
-        <span>Good {good}</span>
-        <span>Neutral {neutral}</span>
-        <span>Bad {bad}</span>
-        <span>All {all}</span>
-        <span>Average {average}</span>
-        <span>Positive{positive}</span>
+        <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
       </article>
     </div>
   )
