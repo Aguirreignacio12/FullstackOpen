@@ -7,6 +7,9 @@ const Header = ({ txt }) => <h2>{txt}</h2>
 const Button = ({ onClick, txt }) => <button onClick={onClick}>{txt} </button>
 
 const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+  if (all === 0) {
+    return <><p>No feedback given</p></>
+  }
   return <>
     <span>Good {good}</span>
     <span>Neutral {neutral}</span>
