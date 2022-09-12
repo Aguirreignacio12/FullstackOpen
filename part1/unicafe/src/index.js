@@ -4,7 +4,7 @@ import '../src/index.css'
 
 const Header = ({ txt }) => <h2>{txt}</h2>
 
-const Button = ({ onClick, txt }) => <button onClick={onClick}>{txt} </button>
+const Button = ({ onClick, txt }) => <button onClick={onClick}>{txt}</button>
 
 const Statistic = ({ txt, value }) => {
   return (
