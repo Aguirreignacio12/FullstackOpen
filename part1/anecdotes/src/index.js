@@ -1,14 +1,27 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Button = ({ onClick, txt }) => {
-  return (<button onClick={onClick}>{txt}</button>)
-}
+const Header = ({ title }) => <h1>{title}</h1>
+
+const Button = ({ onClick, txt }) => <button onClick={onClick}>{txt}</button>
+
 
 const Anecdote = ({ txt, votes }) => {
   return <>
     <p>{txt}</p>
     <p>has {votes} votes</p>
+  </>
+}
+
+const MostVoted = ({ anecdotes, points }) => {
+  const maxPoints = Math.max(...points),
+    i = points.indexOf(maxPoints),
+    maxVoted = anecdotes[i]
+
+  if (maxPoints === 0) return (<p>anecdotes without vote</p>)
+  return <>
+    <p>{maxVoted}</p>
+    <p>{maxPoints}</p>
   </>
 }
 
@@ -39,9 +52,16 @@ const App = ({ anecdotes }) => {
 
   return <>
     <div>
-      <Anecdote txt={anecdotes[selected]} votes={points[selected]} />
-      <Button onClick={handleNextAnecdote} txt={'next anecdote'} />
-      <Button onClick={handleVoteAnecdote} txt={'vote'} />
+      <article>
+        <Header title={'Anecdote for the day'} />
+        <Anecdote txt={anecdotes[selected]} votes={points[selected]} />
+        <Button onClick={handleNextAnecdote} txt={'next anecdote'} />
+        <Button onClick={handleVoteAnecdote} txt={'vote'} />
+      </article>
+      <article>
+        <Header title={'Anecdote with most votes'} />
+        <MostVoted anecdotes={anecdotes} points={points} />
+      </article>
     </div>
   </>
 }
