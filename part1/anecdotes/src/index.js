@@ -5,6 +5,13 @@ const Button = ({ onClick, txt }) => {
   return (<button onClick={onClick}>{txt}</button>)
 }
 
+const Anecdote = ({ txt, votes }) => {
+  return <>
+    <p>{txt}</p>
+    <p>has {votes} votes</p>
+  </>
+}
+
 const anecdotes = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -16,17 +23,25 @@ const anecdotes = [
 
 
 const App = ({ anecdotes }) => {
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(0),
+    [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
 
   const handleNextAnecdote = () => {
     const i = Math.floor(Math.random() * anecdotes.length)
     return setSelected(i)
   }
 
+  const handleVoteAnecdote = () => {
+    const newPoints = [...points]
+    newPoints[selected] += 1
+    setPoints(newPoints)
+  }
+
   return <>
     <div>
-      <p>{anecdotes[selected]}</p>
+      <Anecdote txt={anecdotes[selected]} votes={points[selected]} />
       <Button onClick={handleNextAnecdote} txt={'next anecdote'} />
+      <Button onClick={handleVoteAnecdote} txt={'vote'} />
     </div>
   </>
 }
