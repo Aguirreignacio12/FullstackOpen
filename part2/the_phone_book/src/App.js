@@ -11,6 +11,16 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
+    const verifyName = persons.some(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    )
+
+    if (verifyName) {
+      alert(`${newName} is already added to phonebook.`)
+      setNewName('')
+      return
+    }
+
     const personObj = {
       name: newName,
       id: persons.length + 1
