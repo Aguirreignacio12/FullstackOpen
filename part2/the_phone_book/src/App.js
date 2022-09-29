@@ -5,39 +5,53 @@ import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1 }
+    { id: 1, name: 'Arto Hellas', number: '2289-439716' }
   ])
-  const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState(''),
+    [newNumber, setNewNumber] = useState('')
 
   const addPerson = (e) => {
     e.preventDefault()
+
     const verifyName = persons.some(
       (person) => person.name.toLowerCase() === newName.toLowerCase()
     )
+    const resetValue = () => {
+      setNewName('')
+      setNewNumber('')
+    }
 
     if (verifyName) {
       alert(`${newName} is already added to phonebook.`)
-      setNewName('')
+      resetValue()
+      return
+    }
+
+    if (newName === '' || newNumber === '') {
+      alert(`All fields are required.`)
+      resetValue()
       return
     }
 
     const personObj = {
+      id: persons.length + 1,
       name: newName,
-      id: persons.length + 1
+      number: newNumber
     }
 
     setPersons(persons.concat(personObj))
-    setNewName('')
+    resetValue()
   }
 
   const handleChangeName = e => setNewName(e.target.value)
+  const handleChangeNumber = e => setNewNumber(e.target.value)
 
 
   return (
     <div>
       <article>
         <Header txt='phonebook' />
-        <PersonForm onFormSubmit={addPerson} name={newName} onChangeName={handleChangeName} />
+        <PersonForm onFormSubmit={addPerson} name={newName} onChangeName={handleChangeName} number={newNumber} onChangeNumber={handleChangeNumber} />
       </article>
       <article>
         <Header txt='Numbers' />

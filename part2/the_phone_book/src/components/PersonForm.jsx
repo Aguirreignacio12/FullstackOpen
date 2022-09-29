@@ -1,4 +1,6 @@
-const PersonForm = ({ onFormSubmit, onChangeName, name }) => {
+import Button from './Button'
+
+const PersonForm = ({ onFormSubmit, onChangeName, name, onChangeNumber, number }) => {
 
     return <>
         <form onSubmit={onFormSubmit}>
@@ -7,7 +9,11 @@ const PersonForm = ({ onFormSubmit, onChangeName, name }) => {
                 <input value={name} onChange={onChangeName} />
             </div>
             <div>
-                <button type="submit">add</button>
+                <label>number:</label>
+                <input value={number} onChange={onChangeNumber} />
+            </div>
+            <div>
+                <Button type='submit' txt='add' />
             </div>
         </form>
     </>
