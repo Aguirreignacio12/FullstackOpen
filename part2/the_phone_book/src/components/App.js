@@ -1,14 +1,31 @@
-import React, { useState } from 'react'
-import PersonForm from './components/PersonForm'
-import Header from './components/Header'
-import Persons from './components/Persons'
-import Filter from './components/Filter'
+import { React, useEffect, useState } from 'react'
+import PersonForm from './PersonForm'
+import Header from './Header'
+import Persons from './Persons'
+import Filter from './Filter'
+import axios from 'axios'
+import '../App.css'
 
 const App = () => {
-  const [persons, setPersons] = useState([{ id: 1, name: 'Arto Hellas', number: '2289-439716' }]),
+  const [persons, setPersons] = useState([]),
     [newName, setNewName] = useState(''),
     [newNumber, setNewNumber] = useState(''),
     [filter, setFilter] = useState('')
+
+
+
+  const getPersons = () => {
+    const url = 'http://localhost:3001/persons'
+
+    axios
+      .get(url)
+      .then(res => {
+        const persons = res.data
+        setPersons(persons)
+      })
+  }
+
+  useEffect(getPersons, [])
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -40,7 +57,6 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-
     setPersons(persons.concat(personObj))
     resetValue()
   }
@@ -50,16 +66,16 @@ const App = () => {
   const handleChangeFilter = e => setFilter(e.target.value)
 
   return (
-    <div>
-      <article>
+    <div className='App-content'>
+      <article className='art-search'>
         <Header txt='phonebook' />
         <Filter value={filter} onChange={handleChangeFilter} />
       </article>
-      <article>
+      <article className='art-form'>
         <Header txt='Add a new' />
         <PersonForm onFormSubmit={addPerson} name={newName} onChangeName={handleChangeName} number={newNumber} onChangeNumber={handleChangeNumber} />
       </article>
-      <article>
+      <article className='art-persons'>
         <Header txt='Numbers' />
         <Persons persons={persons} filter={filter} />
       </article>
