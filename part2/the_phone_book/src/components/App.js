@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import PersonForm from './PersonForm'
 import Header from './Header'
-import { getAll, create, detelePerson } from '../services/dailyService'
+import { getAll, create, detelePerson, update } from '../services/dailyService'
 import Persons from './Persons'
 import Filter from './Filter'
 import '../App.css'
@@ -29,14 +29,29 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     }
+    const personObj = {
+      id: persons.length + 1,
+      name: newName,
+      number: newNumber
+    }
 
-    const verifyName = persons.some(
-      person =>
-        person.name.toLowerCase() === newName.toLowerCase()
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
     )
 
-    if (verifyName) {
-      alert(`${newName} is already added to phonebook.`)
+    if (existingPerson) {
+      window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      const changedNumber = { ...existingPerson, number: newNumber }
+      const id = existingPerson.id
+
+      update(id, changedNumber)
+        .then(returnedPerson =>
+          setPersons(persons
+            .map(person =>
+              (person.id !== id ? person : returnedPerson)
+            )
+          )
+        )
       resetValue()
       return
     }
@@ -45,12 +60,6 @@ const App = () => {
       alert(`All fields are required.`)
       resetValue()
       return
-    }
-
-    const personObj = {
-      id: persons.length + 1,
-      name: newName,
-      number: newNumber
     }
 
     create(personObj)
