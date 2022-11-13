@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import PersonForm from './PersonForm'
 import Header from './Header'
-import { getAll, create } from '../services/dailyService'
+import { getAll, create, detelePerson } from '../services/dailyService'
 import Persons from './Persons'
 import Filter from './Filter'
 import '../App.css'
@@ -17,7 +17,7 @@ const App = () => {
       persons =>
         setPersons(persons)
     )
-      .catch(err => <h1>Obteniendo datos del servidor </h1>)
+      .catch(<h1>Obteniendo datos del servidor </h1>)
   }
 
   useEffect(getPersons, [])
@@ -60,6 +60,15 @@ const App = () => {
       })
   }
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`delete ${name}?`)) {
+      detelePerson(id)
+      setPersons(persons.filter(person => person.id !== id))
+    }
+    return
+  }
+
+
   const handleChangeName = e => setNewName(e.target.value)
   const handleChangeNumber = e => setNewNumber(e.target.value)
   const handleChangeFilter = e => setFilter(e.target.value)
@@ -76,7 +85,7 @@ const App = () => {
       </article>
       <article className='art-persons'>
         <Header txt='Numbers' />
-        <Persons persons={persons} filter={filter} />
+        <Persons persons={persons} filter={filter} handleDelete={handleDelete} />
       </article>
     </div>
   )

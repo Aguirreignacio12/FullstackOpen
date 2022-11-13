@@ -11,4 +11,8 @@ const create = newObject => {
   return request.then(response => response.data)
 }
 
-export { getAll, create }
+const detelePerson = id => {
+  const request = axios.get(`${baseUrl}/${id}`)
+  return request
+}
+export { getAll, create, detelePerson }

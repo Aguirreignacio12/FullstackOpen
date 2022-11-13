@@ -15,11 +15,11 @@
 }
 
 .art-numbers {
-  grid-column: 1;
+  grid-column: 2;
   grid-row: 1;
 }
 
 .art-form {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1;
 }
