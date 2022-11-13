@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from 'react'
 import PersonForm from './PersonForm'
 import Header from './Header'
+import { getAll, create } from '../services/dailyService'
 import Persons from './Persons'
 import Filter from './Filter'
-import axios from 'axios'
 import '../App.css'
 
 const App = () => {
@@ -12,17 +12,12 @@ const App = () => {
     [newNumber, setNewNumber] = useState(''),
     [filter, setFilter] = useState('')
 
-
-
   const getPersons = () => {
-    const url = 'http://localhost:3001/persons'
-
-    axios
-      .get(url)
-      .then(res => {
-        const persons = res.data
+    getAll().then(
+      persons =>
         setPersons(persons)
-      })
+    )
+      .catch(err => <h1>Obteniendo datos del servidor </h1>)
   }
 
   useEffect(getPersons, [])
@@ -57,8 +52,12 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    setPersons(persons.concat(personObj))
-    resetValue()
+
+    create(personObj)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        resetValue()
+      })
   }
 
   const handleChangeName = e => setNewName(e.target.value)
