@@ -50,10 +50,27 @@ const App = () => {
       update(id, changedNumber)
         .then(returnedPerson => {
           setPersons(persons
-            .map(person =>
-              (person.id !== id ? person : returnedPerson)
-            ))
+            .map(person => (person.id !== id ? person : returnedPerson))
+          )
           setSuccessMessage(`number of ${returnedPerson.name} updated`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 2000)
+        }).catch(err => {
+          if (err.response.data) {
+            setErrorMessage(err.response.data.error)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 2000)
+          } else {
+            setErrorMessage(
+              `Information of ${existingPerson.name} has already been removed from server`
+            )
+            setPersons(persons.filter((p) => p.id !== id))
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 2000)
+          }
         })
       resetValue()
       return
@@ -80,6 +97,10 @@ const App = () => {
     if (window.confirm(`delete ${name}?`)) {
       detelePerson(id)
       setPersons(persons.filter(person => person.id !== id))
+      setSuccessMessage(`contact deleted`)
+      setTimeout(() =>
+      setSuccessMessage(null)
+      ,2000)
     }
     return
   }
