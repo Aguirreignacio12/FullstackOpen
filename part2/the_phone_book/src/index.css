@@ -26,7 +26,7 @@ li {
 }
 
 h2 {
-  color:rgb(191, 250, 143)
+  color: rgb(191, 250, 143)
 }
 
 label {
@@ -47,10 +47,27 @@ button {
   padding: .5em 1em;
   transition: .2s all ease-in;
   text-transform: uppercase;
-  font-weight:bold;
+  font-weight: bold;
 }
 
 button:hover {
   transform: scale(1.1);
-background-color: rgb(255, 249, 164);
+  background-color: rgb(255, 249, 164);
+}
+
+.message {
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
 }
