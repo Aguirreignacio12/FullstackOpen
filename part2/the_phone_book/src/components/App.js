@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import PersonForm from './PersonForm'
 import Header from './Header'
-import { getAll, create, detelePerson, update } from '../services/dailyService'
+import { getAll, create, deletePerson, update } from '../services/dailyService'
 import Notification from './Notificacion'
 import Persons from './Persons'
 import Filter from './Filter'
@@ -33,7 +33,6 @@ const App = () => {
       setNewNumber('')
     }
     const personObj = {
-      id: persons.length + 1,
       name: newName,
       number: newNumber
     }
@@ -95,12 +94,14 @@ const App = () => {
 
   const handleDelete = (id, name) => {
     if (window.confirm(`delete ${name}?`)) {
-      detelePerson(id)
-      setPersons(persons.filter(person => person.id !== id))
-      setSuccessMessage(`contact deleted`)
+      deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id))
+          setSuccessMessage(`contact deleted`)
+        })
       setTimeout(() =>
-      setSuccessMessage(null)
-      ,2000)
+        setSuccessMessage(null)
+        , 2000)
     }
     return
   }
